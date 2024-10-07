@@ -6,6 +6,7 @@ import SignUp from "./pages/SignUp";
 import Dashboard from "./pages/Dashboard";
 import Header from "./Components/Header";
 import Search from "./pages/Search";
+import { FooterComponent } from "./components/Footer";
 
 const App = () => {
   return (
@@ -18,6 +19,7 @@ const App = () => {
         <Route path="/search" element={<Search />} />
         <Route path="/dashboard" element={<Dashboard />} />
       </Routes>
+      <FooterComponent />
     </BrowserRouter>
   );
 };
