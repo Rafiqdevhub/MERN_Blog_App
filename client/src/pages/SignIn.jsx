@@ -1,10 +1,8 @@
-import React from "react";
-
 const SignIn = () => {
   return (
     <div>
-      <h1>Sign In</h1>
-      <p>Please enter your credentials to sign in.</p>
+      <h2>Sign In</h2>
+      {/* Add sign in form here */}
     </div>
   );
 };

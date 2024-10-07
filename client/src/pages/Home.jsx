@@ -1,11 +1,8 @@
 const Home = () => {
   return (
     <div>
-      <h1>Welcome to Blog Hub</h1>
-      <p>
-        Explore our latest blog posts and connect with writers from around the
-        world.
-      </p>
+      <h2>Welcome to Blog Hub</h2>
+      {/* Add content for the home page */}
     </div>
   );
 };
