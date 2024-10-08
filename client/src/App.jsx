@@ -4,9 +4,10 @@ import Home from "./pages/Home";
 import SignIn from "./pages/SignIn";
 import SignUp from "./pages/SignUp";
 import Dashboard from "./pages/Dashboard";
-import Header from "./Components/Header";
+import Header from "./components/Header";
 import Search from "./pages/Search";
 import { FooterComponent } from "./components/Footer";
+import PrivateRoute from "./components/ProviteRoute";
 
 const App = () => {
   return (
@@ -17,7 +18,9 @@ const App = () => {
         <Route path="/signin" element={<SignIn />} />
         <Route path="/signup" element={<SignUp />} />
         <Route path="/search" element={<Search />} />
-        <Route path="/dashboard" element={<Dashboard />} />
+        <Route element={<PrivateRoute />}>
+          <Route path="/dashboard" element={<Dashboard />} />
+        </Route>
       </Routes>
       <FooterComponent />
     </BrowserRouter>
