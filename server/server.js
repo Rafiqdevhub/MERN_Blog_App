@@ -2,11 +2,20 @@ const express = require("express");
 const connectionDb = require("./config/dbConnection");
 const dotenv = require("dotenv");
 const cookieParser = require("cookie-parser");
+const cors = require("cors");
 const authRoute = require("./routes/authRoute");
 const userRoute = require("./routes/userRoute");
 
 dotenv.config();
 const app = express();
+
+// CORS middleware
+app.use(
+  cors({
+    origin: process.env.CLIENT_URL || "http://localhost:3000",
+    credentials: true,
+  })
+);
 
 app.use(cookieParser());
 app.use(express.json());
