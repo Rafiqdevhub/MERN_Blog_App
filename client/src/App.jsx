@@ -6,8 +6,8 @@ import SignUp from "./pages/SignUp";
 import Dashboard from "./pages/Dashboard";
 import Header from "./components/Header";
 import Search from "./pages/Search";
-import { FooterComponent } from "./components/Footer";
 import PrivateRoute from "./components/ProviteRoute";
+import FooterComponent from "./components/Footer";
 
 const App = () => {
   return (
