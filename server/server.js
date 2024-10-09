@@ -1,11 +1,14 @@
 const express = require("express");
 const connectionDb = require("./config/dbConnection");
-const app = express();
 const dotenv = require("dotenv");
+const cookieParser = require("cookie-parser");
 const authRoute = require("./routes/authRoute");
+const userRoute = require("./routes/userRoute");
 
 dotenv.config();
+const app = express();
 
+app.use(cookieParser());
 app.use(express.json());
 const port = process.env.PORT || 3000;
 
@@ -16,6 +19,7 @@ app.get("/", (req, res) => {
 
 // AUTH ROUTE
 app.use("/api/auth", authRoute);
+app.use("/api/user", userRoute);
 
 // 404 ROUTE
 app.get("/*", (req, res) => {
