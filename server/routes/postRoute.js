@@ -4,7 +4,7 @@ const {
   getPosts,
   deletePost,
   updatePost,
-} = require("../controllers/createPost");
+} = require("../controllers/postController");
 const { verifyToken } = require("../utils/verifyUser");
 const router = express.Router();
 
