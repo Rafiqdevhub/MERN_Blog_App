@@ -5,7 +5,7 @@ const cookieParser = require("cookie-parser");
 const cors = require("cors");
 const authRoute = require("./routes/authRoute");
 const userRoute = require("./routes/userRoute");
-
+const createPostRoute = require("./routes/createPostRoute");
 dotenv.config();
 const app = express();
 
@@ -29,6 +29,7 @@ app.get("/", (req, res) => {
 // AUTH ROUTE
 app.use("/api/auth", authRoute);
 app.use("/api/user", userRoute);
+app.use("/api/post", createPostRoute);
 
 // 404 ROUTE
 app.get("/*", (req, res) => {
