@@ -8,6 +8,8 @@ import Header from "./components/Header";
 import Search from "./pages/Search";
 import PrivateRoute from "./components/ProviteRoute";
 import FooterComponent from "./components/Footer";
+import AdminPrivateRoute from "./components/AdminPriviteRoute";
+import CreatePost from "./pages/CreatePost";
 
 const App = () => {
   return (
@@ -20,6 +22,10 @@ const App = () => {
         <Route path="/search" element={<Search />} />
         <Route element={<PrivateRoute />}>
           <Route path="/dashboard" element={<Dashboard />} />
+        </Route>
+        <Route element={<AdminPrivateRoute />}>
+          <Route path="/create-post" element={<CreatePost />} />
+          {/* <Route path='/update-post/:postId' element={<UpdatePost />} /> */}
         </Route>
       </Routes>
       <FooterComponent />
