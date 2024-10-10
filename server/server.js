@@ -26,7 +26,7 @@ app.get("/", (req, res) => {
   res.send("Welcome to the Blog Hub App");
 });
 
-// AUTH ROUTE
+// ROUTES
 app.use("/api/auth", authRoute);
 app.use("/api/user", userRoute);
 app.use("/api/post", createPostRoute);
