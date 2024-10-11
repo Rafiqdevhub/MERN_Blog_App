@@ -10,6 +10,7 @@ import PrivateRoute from "./components/ProviteRoute";
 import FooterComponent from "./components/Footer";
 import AdminPrivateRoute from "./components/AdminPriviteRoute";
 import CreatePost from "./pages/CreatePost";
+import UpdatePost from "./pages/UpdatPost";
 
 const App = () => {
   return (
@@ -25,7 +26,7 @@ const App = () => {
         </Route>
         <Route element={<AdminPrivateRoute />}>
           <Route path="/create-post" element={<CreatePost />} />
-          {/* <Route path='/update-post/:postId' element={<UpdatePost />} /> */}
+          <Route path="/update-post/:postId" element={<UpdatePost />} />
         </Route>
       </Routes>
       <FooterComponent />
