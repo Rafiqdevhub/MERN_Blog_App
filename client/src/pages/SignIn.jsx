@@ -9,7 +9,7 @@ import {
 } from "../redux/user/userSlice";
 import OAuth from "../components/OAuth";
 
-export default function SignIn() {
+const SignIn = () => {
   const [formData, setFormData] = useState({});
   const { loading, error: errorMessage } = useSelector((state) => state.user);
   const dispatch = useDispatch();
@@ -62,7 +62,7 @@ export default function SignIn() {
               <Label value="Your email" />
               <TextInput
                 type="email"
-                placeholder="name@company.com"
+                placeholder="abc123@gmail.com"
                 id="email"
                 onChange={handleChange}
               />
@@ -93,7 +93,7 @@ export default function SignIn() {
             <OAuth />
           </form>
           <div className="flex gap-2 text-sm mt-5">
-            <span>Dont Have an account?</span>
+            <span>Don&apos;t have an account?</span>
             <Link to="/signup" className="text-blue-500">
               Sign Up
             </Link>
@@ -107,4 +107,5 @@ export default function SignIn() {
       </div>
     </div>
   );
-}
+};
+export default SignIn;
