@@ -6,6 +6,7 @@ const cors = require("cors");
 const authRoute = require("./routes/authRoute");
 const userRoute = require("./routes/userRoute");
 const createPostRoute = require("./routes/postRoute");
+const commentsRoute = require("./routes/commentsRoute");
 dotenv.config();
 const app = express();
 
@@ -30,6 +31,7 @@ app.get("/", (req, res) => {
 app.use("/api/auth", authRoute);
 app.use("/api/user", userRoute);
 app.use("/api/post", createPostRoute);
+app.use("/api/comments", commentsRoute);
 
 // 404 ROUTE
 app.get("/*", (req, res) => {
