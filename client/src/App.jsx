@@ -14,6 +14,7 @@ import UpdatePost from "./pages/UpdatPost";
 import PostPage from "./pages/PostPage";
 import Projects from "./pages/Projects";
 import ScrollToTop from "./components/ScrollToTop";
+import About from "./pages/About";
 const App = () => {
   return (
     <BrowserRouter>
@@ -22,6 +23,7 @@ const App = () => {
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/signin" element={<SignIn />} />
+        <Route path="/about" element={<About />} />
         <Route path="/signup" element={<SignUp />} />
         <Route path="/search" element={<Search />} />
         <Route element={<PrivateRoute />}>
