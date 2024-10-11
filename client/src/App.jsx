@@ -11,10 +11,13 @@ import FooterComponent from "./components/Footer";
 import AdminPrivateRoute from "./components/AdminPriviteRoute";
 import CreatePost from "./pages/CreatePost";
 import UpdatePost from "./pages/UpdatPost";
-
+import PostPage from "./pages/PostPage";
+import Projects from "./pages/Projects";
+import ScrollToTop from "./components/ScrollToTop";
 const App = () => {
   return (
     <BrowserRouter>
+      <ScrollToTop />
       <Header />
       <Routes>
         <Route path="/" element={<Home />} />
@@ -28,6 +31,8 @@ const App = () => {
           <Route path="/create-post" element={<CreatePost />} />
           <Route path="/update-post/:postId" element={<UpdatePost />} />
         </Route>
+        <Route path="/projects" element={<Projects />} />
+        <Route path="/post/:postSlug" element={<PostPage />} />
       </Routes>
       <FooterComponent />
     </BrowserRouter>
