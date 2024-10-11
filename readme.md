@@ -58,19 +58,19 @@ MERN Blog App is a full-stack web application built using the MERN stack (MongoD
 
      ```bash
      cd server
-     npm start
+     npm run dev
      ```
 
    - Start the client:
 
      ```bash
      cd ../client
-     npm start
+     npm run dev
      ```
 
 6. **Open your browser:**
 
-   Visit `http://localhost:3000` to view the application.
+   Visit `http://localhost:5173` to view the application.
 
 ## Contributing
 
