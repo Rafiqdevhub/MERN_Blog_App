@@ -22,7 +22,11 @@ const CallToAction = () => {
         </Button>
       </div>
       <div className="p-7 flex-1">
-        <img src="https://bairesdev.mo.cloudinary.net/blog/2023/08/What-Is-JavaScript-Used-For.jpg" />
+        <img
+          src="/coding.jpg"
+          alt="coding"
+          className="rounded-tl-3xl rounded-br-3xl w-full h-full object-cover"
+        />
       </div>
     </div>
   );
