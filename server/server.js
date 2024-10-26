@@ -20,7 +20,7 @@ app.use(
 
 app.use(cookieParser());
 app.use(express.json());
-const port = process.env.PORT || 3000;
+const port = process.env.PORT || 5000;
 
 // HOME ROUTE
 app.get("/", (req, res) => {
