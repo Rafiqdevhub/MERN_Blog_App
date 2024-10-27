@@ -31,18 +31,19 @@ const SignIn = () => {
         body: JSON.stringify(formData),
       });
       const data = await res.json();
-      if (data.success === false) {
-        dispatch(signInFailure(data.message));
+
+      if (!res.ok || data.success === false) {
+        dispatch(signInFailure(data.message || "Login failed"));
+        return;
       }
 
-      if (res.ok) {
-        dispatch(signInSuccess(data));
-        navigate("/");
-      }
+      dispatch(signInSuccess(data));
+      navigate("/");
     } catch (error) {
       dispatch(signInFailure(error.message));
     }
   };
+
   return (
     <div className="min-h-screen mt-20">
       <div className="flex p-3 max-w-3xl mx-auto flex-col md:flex-row md:items-center gap-5">
@@ -85,7 +86,7 @@ const SignIn = () => {
               {loading ? (
                 <>
                   <Spinner size="sm" />
-                  <span className="pl-3">Loading...</span>
+                  <span className="pl-3">Loading..</span>
                 </>
               ) : (
                 "Sign In"
