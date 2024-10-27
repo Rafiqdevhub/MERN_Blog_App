@@ -2,6 +2,7 @@ import { Button, Select, TextInput } from "flowbite-react";
 import { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import PostCard from "../components/PostCard";
+import { api } from "../api/constant";
 const Search = () => {
   const [sidebarData, setSidebarData] = useState({
     searchTerm: "",
@@ -35,7 +36,7 @@ const Search = () => {
     const fetchPosts = async () => {
       setLoading(true);
       const searchQuery = urlParams.toString();
-      const res = await fetch(`/api/post/getposts?${searchQuery}`);
+      const res = await fetch(`${api}/post/getposts?${searchQuery}`);
       if (!res.ok) {
         setLoading(false);
         return;
