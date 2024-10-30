@@ -2,6 +2,7 @@ import { Modal, Table, Button } from "flowbite-react";
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { HiOutlineExclamationCircle } from "react-icons/hi";
+import { api } from "../api/constant";
 
 export const CommentsDashboard = () => {
   const { currentUser } = useSelector((state) => state.user);
@@ -12,7 +13,7 @@ export const CommentsDashboard = () => {
   useEffect(() => {
     const fetchComments = async () => {
       try {
-        const res = await fetch(`/api/comment/getcomments`);
+        const res = await fetch(`${api}/comment/getcomments`);
         const data = await res.json();
         if (res.ok) {
           setComments(data.comments);

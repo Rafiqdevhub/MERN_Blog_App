@@ -8,6 +8,7 @@ import {
 } from "react-icons/hi";
 import { Button, Table } from "flowbite-react";
 import { Link } from "react-router-dom";
+import { api } from "../api/constant";
 
 const DashboardComponent = () => {
   const [users, setUsers] = useState([]);
@@ -23,7 +24,7 @@ const DashboardComponent = () => {
   useEffect(() => {
     const fetchUsers = async () => {
       try {
-        const res = await fetch("/api/user/getusers?limit=5");
+        const res = await fetch(`${api}/user/getusers?limit=5`);
         const data = await res.json();
         if (res.ok) {
           setUsers(data.users);
@@ -36,7 +37,7 @@ const DashboardComponent = () => {
     };
     const fetchPosts = async () => {
       try {
-        const res = await fetch("/api/post/getposts?limit=5");
+        const res = await fetch(`${api}/post/getposts?limit=5`);
         const data = await res.json();
         if (res.ok) {
           setPosts(data.posts);
@@ -49,7 +50,7 @@ const DashboardComponent = () => {
     };
     const fetchComments = async () => {
       try {
-        const res = await fetch("/api/comment/getcomments?limit=5");
+        const res = await fetch(`${api}/comment/getcomments?limit=5`);
         const data = await res.json();
         if (res.ok) {
           setComments(data.comments);
