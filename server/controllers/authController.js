@@ -1,7 +1,7 @@
-const User = require("../models/userModel");
-const bcryptjs = require("bcryptjs");
-const jwt = require("jsonwebtoken");
-const { errorHandler } = require("../utils/errors");
+import User from "../models/userModel.js";
+import bcryptjs from "bcryptjs";
+import jwt from "jsonwebtoken";
+import { errorHandler } from "../utils/errors.js";
 
 const registerUser = async (req, res, next) => {
   try {
@@ -49,7 +49,7 @@ const loginUser = async (req, res, next) => {
     const token = jwt.sign(
       { id: validUser._id, isAdmin: validUser.isAdmin },
       process.env.JWT_SECRET,
-      { expiresIn: "1h" }
+      { expiresIn: "30d" }
     );
     const { password: pass, ...rest } = validUser._doc;
 
@@ -114,4 +114,4 @@ const google = async (req, res, next) => {
   }
 };
 
-module.exports = { registerUser, loginUser, google };
+export { registerUser, loginUser, google };

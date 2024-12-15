@@ -1,5 +1,5 @@
-const Post = require("../models/postModel");
-const errorHandler = require("../utils/errors");
+import Post from "../models/postModel.js";
+import { errorHandler } from "../utils/errors.js";
 
 const createPost = async (req, res) => {
   if (!req.user.isAdmin) {
@@ -106,4 +106,4 @@ const updatePost = async (req, res) => {
   }
 };
 
-module.exports = { createPost, getPosts, deletePost, updatePost };
+export { createPost, getPosts, deletePost, updatePost };

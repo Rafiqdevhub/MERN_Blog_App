@@ -1,12 +1,12 @@
-const express = require("express");
-const {
+import express from "express";
+import {
   deleteUser,
   getUser,
   getUsers,
   signOut,
   updateUser,
-} = require("../controllers/userController");
-const { verifyToken } = require("../utils/verifyUser");
+} from "../controllers/userController.js";
+import { verifyToken } from "../utils/verifyUser.js";
 
 const router = express.Router();
 
@@ -16,4 +16,4 @@ router.post("/signout", signOut);
 router.get("/getusers", verifyToken, getUsers);
 router.get("/:userId", getUser);
 
-module.exports = router;
+export default router;
