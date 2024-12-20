@@ -11,13 +11,13 @@ import commentsRoute from "./routes/commentsRoute.js";
 dotenv.config();
 const app = express();
 
-// CORS middleware
-app.use(
-  cors({
-    origin: process.env.CLIENT_URL || "http://localhost:5173",
-    credentials: true,
-  })
-);
+// CORS middleware\
+const corsOptions = {
+  origin: process.env.CLIENT_URL || "http://localhost:5173",
+  credentials: true,
+  allowedHeaders: ["Content-Type"],
+};
+app.use(cors(corsOptions));
 
 app.use(cookieParser());
 app.use(express.json());
