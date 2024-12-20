@@ -105,6 +105,7 @@ export default function DashProfile() {
       dispatch(updateStart());
       const res = await fetch(`${api}/user/update/${currentUser._id}`, {
         method: "PUT",
+        credentials: "include",
         headers: {
           "Content-Type": "application/json",
         },
@@ -232,7 +233,7 @@ export default function DashProfile() {
           outline
           disabled={loading || imageFileUploading}
         >
-          {loading ? "Loading..." : "Update the user"}
+          {loading ? "Loading." : "Update the user"}
         </Button>
         {currentUser.isAdmin && (
           <Link to={"/create-post"}>
