@@ -65,6 +65,7 @@ export default function CreatePost() {
     try {
       const res = await fetch(`${api}/post/create`, {
         method: "POST",
+        credentials: "include",
         headers: {
           "Content-Type": "application/json",
         },
