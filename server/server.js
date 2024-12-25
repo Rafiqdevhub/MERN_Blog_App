@@ -11,11 +11,9 @@ import commentsRoute from "./routes/commentsRoute.js";
 dotenv.config();
 const app = express();
 
-// CORS middleware\
 const corsOptions = {
   origin: process.env.CLIENT_URL || "http://localhost:5173",
   credentials: true,
-  allowedHeaders: ["Content-Type"],
 };
 app.use(cors(corsOptions));
 
@@ -23,25 +21,21 @@ app.use(cookieParser());
 app.use(express.json());
 const port = process.env.PORT || 5000;
 
-// HOME ROUTE
 app.get("/", (req, res) => {
   res.send("Welcome to the Blog Hub App");
 });
 
-// ROUTES
 app.use("/api/user", userRoute);
 app.use("/api/auth", authRoute);
 app.use("/api/post", createPostRoute);
 app.use("/api/comment", commentsRoute);
 
-// 404 ROUTE
 app.get("/*", (req, res) => {
   res.status(404).json({
     message: "Route not found",
   });
 });
 
-// ERROR HANDLER
 app.use((err, req, res, next) => {
   const statusCode = err.statusCode || 500;
   const message = err.message || "Internal Server Error";
