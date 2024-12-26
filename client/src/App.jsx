@@ -1,5 +1,4 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-
 import Home from "./pages/Home";
 import SignIn from "./pages/SignIn";
 import SignUp from "./pages/SignUp";
@@ -15,6 +14,7 @@ import PostPage from "./pages/PostPage";
 import Projects from "./pages/Projects";
 import ScrollToTop from "./components/ScrollToTop";
 import About from "./pages/About";
+
 const App = () => {
   return (
     <BrowserRouter>
