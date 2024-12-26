@@ -35,6 +35,7 @@ const DashboardComponent = () => {
         console.log(error.message);
       }
     };
+
     const fetchPosts = async () => {
       try {
         const res = await axios.get(`${api}/post/getposts?limit=5`);
@@ -46,6 +47,7 @@ const DashboardComponent = () => {
         console.log(error.message);
       }
     };
+
     const fetchComments = async () => {
       try {
         const res = await axios.get(`${api}/comment/getcomments?limit=5`);
