@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import PostCard from "../components/PostCard";
 import { api } from "../api/constant";
+import axios from "axios";
 const Search = () => {
   const [sidebarData, setSidebarData] = useState({
     searchTerm: "",
@@ -35,13 +36,9 @@ const Search = () => {
     const fetchPosts = async () => {
       setLoading(true);
       const searchQuery = urlParams.toString();
-      const res = await fetch(`${api}/post/getposts?${searchQuery}`);
-      if (!res.ok) {
-        setLoading(false);
-        return;
-      }
-      if (res.ok) {
-        const data = await res.json();
+      try {
+        const res = await axios.get(`${api}/post/getposts?${searchQuery}`);
+        const data = res.data;
         setPosts(data.posts);
         setLoading(false);
         if (data.posts.length === 9) {
@@ -49,6 +46,9 @@ const Search = () => {
         } else {
           setShowMore(false);
         }
+      } catch (error) {
+        setLoading(false);
+        console.error("Error fetching posts:", error);
       }
     };
     fetchPosts();
@@ -84,20 +84,20 @@ const Search = () => {
     const urlParams = new URLSearchParams(location.search);
     urlParams.set("startIndex", startIndex);
     const searchQuery = urlParams.toString();
-    const res = await fetch(`/api/post/getposts?${searchQuery}`);
-    if (!res.ok) {
-      return;
-    }
-    if (res.ok) {
-      const data = await res.json();
+    try {
+      const res = await axios.get(`${api}/post/getposts?${searchQuery}`);
+      const data = res.data;
       setPosts([...posts, ...data.posts]);
       if (data.posts.length === 9) {
         setShowMore(true);
       } else {
         setShowMore(false);
       }
+    } catch (error) {
+      console.error("Error fetching more posts:", error);
     }
   };
+
   return (
     <div className="flex flex-col md:flex-row">
       <div className="p-7 border-b md:border-r md:min-h-screen border-gray-500">

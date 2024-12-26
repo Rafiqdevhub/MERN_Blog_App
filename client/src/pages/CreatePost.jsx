@@ -13,6 +13,7 @@ import { CircularProgressbar } from "react-circular-progressbar";
 import "react-circular-progressbar/dist/styles.css";
 import { useNavigate } from "react-router-dom";
 import { api } from "../api/constant";
+import axios from "axios";
 
 export default function CreatePost() {
   const [file, setFile] = useState(null);
@@ -60,32 +61,30 @@ export default function CreatePost() {
       console.log(error);
     }
   };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const res = await fetch(`${api}/post/create`, {
-        method: "POST",
-        credentials: "include",
+      const res = await axios.post(`${api}/post/create`, formData, {
+        withCredentials: true,
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify(formData),
       });
-      const data = await res.json();
-      if (!res.ok) {
+      const data = res.data;
+      if (res.status !== 200) {
         setPublishError(data.message);
         return;
       }
 
-      if (res.ok) {
-        setPublishError(null);
-        navigate(`/post/${data.slug}`);
-      }
+      setPublishError(null);
+      navigate(`/post/${data.slug}`);
     } catch (error) {
       console.log(error);
       setPublishError("Something went wrong");
     }
   };
+
   return (
     <div className="p-3 max-w-3xl mx-auto min-h-screen">
       <h1 className="text-center text-3xl my-7 font-semibold">Create a post</h1>

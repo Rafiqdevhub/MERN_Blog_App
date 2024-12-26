@@ -9,6 +9,7 @@ import {
 } from "../redux/user/userSlice";
 import OAuth from "../components/OAuth";
 import { api } from "../api/constant";
+import axios from "axios";
 
 const SignIn = () => {
   const [formData, setFormData] = useState({});
@@ -25,14 +26,12 @@ const SignIn = () => {
     }
     try {
       dispatch(signInStart());
-      const res = await fetch(`${api}/auth/login`, {
-        method: "POST",
+      const res = await axios.post(`${api}/auth/login`, formData, {
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(formData),
       });
-      const data = await res.json();
+      const data = res.data;
 
-      if (!res.ok || data.success === false) {
+      if (!res.status === 200 || data.success === false) {
         dispatch(signInFailure(data.message || "Login failed"));
         return;
       }
@@ -40,7 +39,7 @@ const SignIn = () => {
       dispatch(signInSuccess(data));
       navigate("/");
     } catch (error) {
-      dispatch(signInFailure(error.message));
+      dispatch(signInFailure(error.response?.data?.message || error.message));
     }
   };
 

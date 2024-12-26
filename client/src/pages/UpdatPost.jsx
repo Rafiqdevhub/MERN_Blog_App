@@ -14,6 +14,7 @@ import "react-circular-progressbar/dist/styles.css";
 import { useNavigate, useParams } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { api } from "../api/constant";
+import axios from "axios";
 
 export default function UpdatePost() {
   const [file, setFile] = useState(null);
@@ -27,25 +28,20 @@ export default function UpdatePost() {
   const { currentUser } = useSelector((state) => state.user);
 
   useEffect(() => {
-    try {
-      const fetchPost = async () => {
-        const res = await fetch(`${api}/post/getposts?postId=${postId}`);
-        const data = await res.json();
-        if (!res.ok) {
-          console.log(data.message);
-          setPublishError(data.message);
-          return;
-        }
-        if (res.ok) {
-          setPublishError(null);
-          setFormData(data.posts[0]);
-        }
-      };
+    const fetchPost = async () => {
+      try {
+        const res = await axios.get(`${api}/post/getposts`, {
+          params: { postId },
+        });
+        const data = res.data;
+        setFormData(data.posts[0]);
+      } catch (error) {
+        console.log(error.message);
+        setPublishError("Failed to fetch post");
+      }
+    };
 
-      fetchPost();
-    } catch (error) {
-      console.log(error.message);
-    }
+    fetchPost();
   }, [postId]);
 
   const handleUpdloadImage = async () => {
@@ -84,29 +80,27 @@ export default function UpdatePost() {
       console.log(error);
     }
   };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const res = await fetch(
-        `/api/post/updatepost/${formData._id}/${currentUser._id}`,
+      const res = await axios.put(
+        `${api}/post/updatepost/${formData._id}/${currentUser._id}`,
+        formData,
         {
-          method: "PUT",
           headers: {
             "Content-Type": "application/json",
           },
-          body: JSON.stringify(formData),
         }
       );
-      const data = await res.json();
-      if (!res.ok) {
+      const data = res.data;
+      if (res.status !== 200) {
         setPublishError(data.message);
         return;
       }
 
-      if (res.ok) {
-        setPublishError(null);
-        navigate(`/post/${data.slug}`);
-      }
+      setPublishError(null);
+      navigate(`/post/${data.slug}`);
     } catch (error) {
       console.log(error);
       setPublishError("Something went wrong");

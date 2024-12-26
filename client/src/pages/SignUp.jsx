@@ -3,6 +3,7 @@ import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import OAuth from "../components/OAuth";
 import { api } from "../api/constant";
+import axios from "axios";
 
 export default function SignUp() {
   const [formData, setFormData] = useState({});
@@ -12,6 +13,7 @@ export default function SignUp() {
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.id]: e.target.value.trim() });
   };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (!formData.username || !formData.email || !formData.password) {
@@ -20,25 +22,16 @@ export default function SignUp() {
     try {
       setLoading(true);
       setErrorMessage(null);
-      const res = await fetch(`${api}/auth/register`, {
-        method: "POST",
+      const res = await axios.post(`${api}/auth/register`, formData, {
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(formData),
       });
-      if (!res.ok) {
-        const errorData = await res.json();
-        throw new Error(errorData.message || "Registration failed.");
-      }
-      const data = await res.json();
-      if (data.success === false) {
-        return setErrorMessage(data.message);
+      if (res.data.success === false) {
+        return setErrorMessage(res.data.message);
       }
       setLoading(false);
-      if (res.ok) {
-        navigate("/signin");
-      }
+      navigate("/signin");
     } catch (error) {
-      setErrorMessage(error.message);
+      setErrorMessage(error.response?.data?.message || error.message);
       setLoading(false);
     }
   };
