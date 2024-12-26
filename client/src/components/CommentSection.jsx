@@ -5,6 +5,7 @@ import { Link, useNavigate } from "react-router-dom";
 import Comment from "./Comment";
 import { HiOutlineExclamationCircle } from "react-icons/hi";
 import { api } from "../api/constant";
+import axios from "axios";
 
 const CommentSection = ({ postId }) => {
   const { currentUser } = useSelector((state) => state.user);
@@ -21,23 +22,15 @@ const CommentSection = ({ postId }) => {
       return;
     }
     try {
-      const res = await fetch(`${api}/comment/create`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          content: comment,
-          postId,
-          userId: currentUser._id,
-        }),
+      const res = await axios.post(`${api}/comment/create`, {
+        content: comment,
+        postId,
+        userId: currentUser._id,
       });
-      const data = await res.json();
-      if (res.ok) {
-        setComment("");
-        setCommentError(null);
-        setComments([data, ...comments]);
-      }
+      const data = res.data;
+      setComment("");
+      setCommentError(null);
+      setComments([data, ...comments]);
     } catch (error) {
       setCommentError(error.message);
     }
@@ -46,11 +39,9 @@ const CommentSection = ({ postId }) => {
   useEffect(() => {
     const getComments = async () => {
       try {
-        const res = await fetch(`${api}/comment/getPostComments/${postId}`);
-        if (res.ok) {
-          const data = await res.json();
-          setComments(data);
-        }
+        const res = await axios.get(`${api}/comment/getPostComments/${postId}`);
+        const data = res.data;
+        setComments(data);
       } catch (error) {
         console.log(error.message);
       }
@@ -64,23 +55,19 @@ const CommentSection = ({ postId }) => {
         navigate("/signin");
         return;
       }
-      const res = await fetch(`${api}/comment/likeComment/${commentId}`, {
-        method: "PUT",
-      });
-      if (res.ok) {
-        const data = await res.json();
-        setComments(
-          comments.map((comment) =>
-            comment._id === commentId
-              ? {
-                  ...comment,
-                  likes: data.likes,
-                  numberOfLikes: data.likes.length,
-                }
-              : comment
-          )
-        );
-      }
+      const res = await axios.put(`${api}/comment/likeComment/${commentId}`);
+      const data = res.data;
+      setComments(
+        comments.map((comment) =>
+          comment._id === commentId
+            ? {
+                ...comment,
+                likes: data.likes,
+                numberOfLikes: data.likes.length,
+              }
+            : comment
+        )
+      );
     } catch (error) {
       console.log(error.message);
     }
@@ -101,17 +88,17 @@ const CommentSection = ({ postId }) => {
         navigate("/signin");
         return;
       }
-      const res = await fetch(`${api}/comment/deleteComment/${commentId}`, {
-        method: "DELETE",
-      });
-      if (res.ok) {
-        const data = await res.json();
+      const res = await axios.delete(
+        `${api}/comment/deleteComment/${commentId}`
+      );
+      if (res.status === 200) {
         setComments(comments.filter((comment) => comment._id !== commentId));
       }
     } catch (error) {
       console.log(error.message);
     }
   };
+
   return (
     <div className="max-w-2xl mx-auto w-full p-3">
       {currentUser ? (

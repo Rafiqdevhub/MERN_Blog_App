@@ -9,6 +9,7 @@ import {
 import { Button, Table } from "flowbite-react";
 import { Link } from "react-router-dom";
 import { api } from "../api/constant";
+import axios from "axios";
 
 const DashboardComponent = () => {
   const [users, setUsers] = useState([]);
@@ -21,42 +22,37 @@ const DashboardComponent = () => {
   const [lastMonthPosts, setLastMonthPosts] = useState(0);
   const [lastMonthComments, setLastMonthComments] = useState(0);
   const { currentUser } = useSelector((state) => state.user);
+
   useEffect(() => {
     const fetchUsers = async () => {
       try {
-        const res = await fetch(`${api}/user/getusers?limit=5`);
-        const data = await res.json();
-        if (res.ok) {
-          setUsers(data.users);
-          setTotalUsers(data.totalUsers);
-          setLastMonthUsers(data.lastMonthUsers);
-        }
+        const res = await axios.get(`${api}/user/getusers?limit=5`);
+        const data = res.data;
+        setUsers(data.users);
+        setTotalUsers(data.totalUsers);
+        setLastMonthUsers(data.lastMonthUsers);
       } catch (error) {
         console.log(error.message);
       }
     };
     const fetchPosts = async () => {
       try {
-        const res = await fetch(`${api}/post/getposts?limit=5`);
-        const data = await res.json();
-        if (res.ok) {
-          setPosts(data.posts);
-          setTotalPosts(data.totalPosts);
-          setLastMonthPosts(data.lastMonthPosts);
-        }
+        const res = await axios.get(`${api}/post/getposts?limit=5`);
+        const data = res.data;
+        setPosts(data.posts);
+        setTotalPosts(data.totalPosts);
+        setLastMonthPosts(data.lastMonthPosts);
       } catch (error) {
         console.log(error.message);
       }
     };
     const fetchComments = async () => {
       try {
-        const res = await fetch(`${api}/comment/getcomments?limit=5`);
-        const data = await res.json();
-        if (res.ok) {
-          setComments(data.comments);
-          setTotalComments(data.totalComments);
-          setLastMonthComments(data.lastMonthComments);
-        }
+        const res = await axios.get(`${api}/comment/getcomments?limit=5`);
+        const data = res.data;
+        setComments(data.comments);
+        setTotalComments(data.totalComments);
+        setLastMonthComments(data.lastMonthComments);
       } catch (error) {
         console.log(error.message);
       }
@@ -67,6 +63,7 @@ const DashboardComponent = () => {
       fetchComments();
     }
   }, [currentUser]);
+
   return (
     <div className="p-3 md:mx-auto">
       <div className="flex-wrap flex gap-4 justify-center">

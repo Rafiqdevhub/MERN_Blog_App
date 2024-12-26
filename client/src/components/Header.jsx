@@ -7,6 +7,7 @@ import { toggleTheme } from "../redux/theme/themeSlice";
 import { signoutSuccess } from "../redux/user/userSlice";
 import { useEffect, useState } from "react";
 import { api } from "../api/constant";
+import axios from "axios";
 
 export default function Header() {
   const path = useLocation().pathname;
@@ -27,12 +28,9 @@ export default function Header() {
 
   const handleSignout = async () => {
     try {
-      const res = await fetch(`${api}/user/signout`, {
-        method: "POST",
-      });
-      const data = await res.json();
-      if (!res.ok) {
-        console.log(data.message);
+      const res = await axios.post(`${api}/user/signout`);
+      if (res.status !== 200) {
+        console.log(res.data.message);
       } else {
         dispatch(signoutSuccess());
       }
