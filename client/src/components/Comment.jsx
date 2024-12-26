@@ -4,24 +4,26 @@ import { FaThumbsUp } from "react-icons/fa";
 import { useSelector } from "react-redux";
 import { Button, Textarea } from "flowbite-react";
 import { api } from "../api/constant";
+import axios from "axios";
 
 const Comment = ({ comment, onLike, onEdit, onDelete }) => {
   const [user, setUser] = useState({});
   const [isEditing, setIsEditing] = useState(false);
   const [editedContent, setEditedContent] = useState(comment.content);
   const { currentUser } = useSelector((state) => state.user);
+
   useEffect(() => {
     const getUser = async () => {
       try {
-        const res = await fetch(`${api}/user/${comment.userId}`);
-        const data = await res.json();
-        if (res.ok) {
-          setUser(data);
-        }
+        const res = await axios.get(`${api}/user/${comment.userId}`);
+        const data = res.data;
+
+        setUser(data);
       } catch (error) {
-        console.log(error.message);
+        console.log(error.response?.data?.message || error.message);
       }
     };
+
     getUser();
   }, [comment]);
 
@@ -32,23 +34,21 @@ const Comment = ({ comment, onLike, onEdit, onDelete }) => {
 
   const handleSave = async () => {
     try {
-      const res = await fetch(`${api}/comment/editComment/${comment._id}`, {
-        method: "PUT",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          content: editedContent,
-        }),
-      });
-      if (res.ok) {
+      const res = await axios.put(
+        `${api}/comment/editComment/${comment._id}`,
+        { content: editedContent },
+        { headers: { "Content-Type": "application/json" } }
+      );
+
+      if (res.status === 200) {
         setIsEditing(false);
         onEdit(comment, editedContent);
       }
     } catch (error) {
-      console.log(error.message);
+      console.log(error.response?.data?.message || error.message);
     }
   };
+
   return (
     <div className="flex p-4 border-b dark:border-gray-600 text-sm">
       <div className="flex-shrink-0 mr-3">

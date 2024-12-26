@@ -1,6 +1,7 @@
 import { Alert, Button, Modal, TextInput } from "flowbite-react";
 import { useEffect, useRef, useState } from "react";
 import { useSelector } from "react-redux";
+import axios from "axios";
 import {
   getDownloadURL,
   getStorage,
@@ -93,35 +94,37 @@ export default function DashProfile() {
     e.preventDefault();
     setUpdateUserError(null);
     setUpdateUserSuccess(null);
+
     if (Object.keys(formData).length === 0) {
       setUpdateUserError("No changes made");
       return;
     }
+
     if (imageFileUploading) {
       setUpdateUserError("Please wait for image to upload");
       return;
     }
+
     try {
       dispatch(updateStart());
-      const res = await fetch(`${api}/user/update/${currentUser._id}`, {
-        method: "PUT",
-        credentials: "include",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(formData),
-      });
-      const data = await res.json();
-      if (!res.ok) {
-        dispatch(updateFailure(data.message));
-        setUpdateUserError(data.message);
-      } else {
-        dispatch(updateSuccess(data));
-        setUpdateUserSuccess("User's profile updated successfully");
-      }
+
+      const res = await axios.put(
+        `${api}/user/update/${currentUser._id}`,
+        formData,
+        {
+          withCredentials: true,
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
+
+      dispatch(updateSuccess(res.data));
+      setUpdateUserSuccess("User's profile updated successfully");
     } catch (error) {
-      dispatch(updateFailure(error.message));
-      setUpdateUserError(error.message);
+      const errorMessage = error.response?.data?.message || error.message;
+      dispatch(updateFailure(errorMessage));
+      setUpdateUserError(errorMessage);
     }
   };
 
@@ -129,35 +132,24 @@ export default function DashProfile() {
     setShowModal(false);
     try {
       dispatch(deleteUserStart());
-      const res = await fetch(`${api}/user/delete/${currentUser._id}`, {
-        method: "DELETE",
-      });
-      const data = await res.json();
-      if (!res.ok) {
-        dispatch(deleteUserFailure(data.message));
-      } else {
-        dispatch(deleteUserSuccess(data));
-      }
+      const res = await axios.delete(`${api}/user/delete/${currentUser._id}`);
+      dispatch(deleteUserSuccess(res.data));
     } catch (error) {
-      dispatch(deleteUserFailure(error.message));
+      const errorMessage = error.response?.data?.message || error.message;
+      dispatch(deleteUserFailure(errorMessage));
     }
   };
 
   const handleSignout = async () => {
     try {
-      const res = await fetch(`${api}/user/signout`, {
-        method: "POST",
-      });
-      const data = await res.json();
-      if (!res.ok) {
-        console.log(data.message);
-      } else {
-        dispatch(signoutSuccess());
-      }
+      await axios.post(`${api}/user/signout`);
+      dispatch(signoutSuccess());
     } catch (error) {
-      console.log(error.message);
+      const errorMessage = error.response?.data?.message || error.message;
+      console.log(errorMessage);
     }
   };
+
   return (
     <div className="max-w-lg mx-auto p-3 w-full">
       <h1 className="my-7 text-center font-semibold text-3xl">Profile</h1>
