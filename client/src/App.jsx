@@ -5,11 +5,10 @@ import SignUp from "./pages/SignUp";
 import Dashboard from "./pages/Dashboard";
 import Header from "./components/Header";
 import Search from "./pages/Search";
-import PrivateRoute from "./components/ProviteRoute";
 import FooterComponent from "./components/Footer";
-import AdminPrivateRoute from "./components/AdminPriviteRoute";
+import AdminPrivateRoute from "./components/AdminPrivateRoute";
 import CreatePost from "./pages/CreatePost";
-import UpdatePost from "./pages/UpdatPost";
+import UpdatePost from "./pages/UpdatePost";
 import PostPage from "./pages/PostPage";
 import Projects from "./pages/Projects";
 import ScrollToTop from "./components/ScrollToTop";
@@ -26,7 +25,7 @@ const App = () => {
         <Route path="/about" element={<About />} />
         <Route path="/signup" element={<SignUp />} />
         <Route path="/search" element={<Search />} />
-        <Route element={<PrivateRoute />}>
+        <Route element={<AdminPrivateRoute />}>
           <Route path="/dashboard" element={<Dashboard />} />
         </Route>
         <Route element={<AdminPrivateRoute />}>
