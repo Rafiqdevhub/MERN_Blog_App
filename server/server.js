@@ -3,6 +3,8 @@ import connectionDb from "./config/dbConnection.js";
 import dotenv from "dotenv";
 import cookieParser from "cookie-parser";
 import cors from "cors";
+import path from 'path';
+
 import authRoute from "./routes/authRoute.js";
 import userRoute from "./routes/userRoute.js";
 import createPostRoute from "./routes/postRoute.js";
@@ -30,10 +32,11 @@ app.use("/api/auth", authRoute);
 app.use("/api/post", createPostRoute);
 app.use("/api/comment", commentsRoute);
 
-app.get("/*", (req, res) => {
-  res.status(404).json({
-    message: "Route not found",
-  });
+const __dirname = path.resolve();
+app.use(express.static(path.join(__dirname, '/client/dist')));
+
+app.get('*', (req, res) => {
+  res.sendFile(path.join(__dirname, 'client', 'dist', 'index.html'));
 });
 
 app.use((err, req, res, next) => {
