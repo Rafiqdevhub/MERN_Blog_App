@@ -49,7 +49,7 @@ const loginUser = async (req, res, next) => {
       process.env.JWT_SECRET
     );
     const { password: pass, ...rest } = validUser._doc;
-    console.log(token);
+
     res
       .status(200)
       .cookie("access_token", token, {

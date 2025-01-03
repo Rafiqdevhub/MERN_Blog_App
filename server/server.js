@@ -1,9 +1,9 @@
 import express from "express";
-import connectionDb from "./config/dbConnection.js";
 import dotenv from "dotenv";
 import cookieParser from "cookie-parser";
 import cors from "cors";
-import path from 'path';
+import path from "path";
+import connectionDb from "./config/dbConnection.js";
 
 import authRoute from "./routes/authRoute.js";
 import userRoute from "./routes/userRoute.js";
@@ -22,22 +22,12 @@ app.use(cors(corsOptions));
 app.use(cookieParser());
 app.use(express.json());
 const port = process.env.PORT || 5000;
-
-app.get("/", (req, res) => {
-  res.send("Welcome to the Blog Hub App");
-});
+const __dirname = path.resolve();
 
 app.use("/api/user", userRoute);
 app.use("/api/auth", authRoute);
 app.use("/api/post", createPostRoute);
 app.use("/api/comment", commentsRoute);
-
-const __dirname = path.resolve();
-app.use(express.static(path.join(__dirname, '/client/dist')));
-
-app.get('*', (req, res) => {
-  res.sendFile(path.join(__dirname, 'client', 'dist', 'index.html'));
-});
 
 app.use((err, req, res, next) => {
   const statusCode = err.statusCode || 500;
@@ -45,6 +35,12 @@ app.use((err, req, res, next) => {
   res.status(statusCode).json({
     message,
   });
+});
+
+app.use(express.static(path.join(__dirname, "/client/dist")));
+
+app.get("*", (_, res) => {
+  res.sendFile(path.join(__dirname, "client", "dist", "index.html"));
 });
 
 app.listen(port, () => {
