@@ -1,7 +1,7 @@
 import Post from "../models/postModel.js";
 import { errorHandler } from "../utils/errors.js";
 
-const createPost = async (req, res) => {
+const createPost = async (req, res, next) => {
   if (!req.user.isAdmin) {
     return next(errorHandler(403, "You are not allowed to create a post"));
   }
@@ -26,7 +26,7 @@ const createPost = async (req, res) => {
   }
 };
 
-const getPosts = async (req, res) => {
+const getPosts = async (req, res, next) => {
   try {
     const startIndex = parseInt(req.query.startIndex) || 0;
     const limit = parseInt(req.query.limit) || 9;
@@ -71,7 +71,7 @@ const getPosts = async (req, res) => {
   }
 };
 
-const deletePost = async (req, res) => {
+const deletePost = async (req, res, next) => {
   if (!req.user.isAdmin || req.user.id !== req.params.userId) {
     return next(errorHandler(403, "You are not allowed to delete this post"));
   }
@@ -83,7 +83,7 @@ const deletePost = async (req, res) => {
   }
 };
 
-const updatePost = async (req, res) => {
+const updatePost = async (req, res, next) => {
   if (!req.user.isAdmin || req.user.id !== req.params.userId) {
     return next(errorHandler(403, "You are not allowed to update this post"));
   }
